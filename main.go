@@ -69,7 +69,7 @@ func main() {
 				if len(*flagDomain) > 0 && (len(toSplited) < 2 || toSplited[1] != *flagDomain) {
 					log.Println("domain not allowed")
 					log.Println(*flagDomain)
-					return errors.New("Unauthorized TO domain")
+					return errors.New("unauthorized TO domain")
 				}
 			}
 
