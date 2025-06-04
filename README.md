@@ -1,10 +1,10 @@
-SMTP2HTTP (email-to-web)
-========================
+# SMTP2HTTP (email-to-web)
+
 smtp2http is a simple smtp server that resends the incoming email to the configured web endpoint (webhook) as a basic http post request.
 
 ## Usage
 
-```
+```text
 Usage of ./smtp2http:
   -base64html
         encode HTML body in base64 (default: false) for webhook
@@ -30,16 +30,44 @@ Usage of ./smtp2http:
         the webhook to send the data to (default "http://localhost:8080/my/webhook")
 ```
 
-Dev 
-===
+## Development
+
 - `go mod vendor`
 - `go build`
 
-Dev with Docker
-==============
+### Development with Docker (docker compose)
+
+To run the development version of smtp2http using Docker, you can use the provided Dockerfile and docker-compose setup.
+
+```shell
+# Start the container
+docker compose up -d
+
+# Enter the container shell
+docker compose exec dev sh
+
+# Run commands and start developing.
+# Once inside the container, you can run:
+
+go mod vendor
+
+# Build the application
+GOOS=linux go build -mod vendor -a -o smtp2http .
+
+# Run the application
+chmod +x ./start
+./start 
+# or run directly
+./smtp2http --listen=:25 --webhook=http://localhost:8080/api/smtp-hook
+```
+
+The docker-compose.yml provided is for development purpose and mounts the current directory into the container, allowing you to edit files on your host machine and see changes reflected in the container.
+
+### Dev with Docker
+
 Using pre-built docker image:
 
-```
+```sh
 docker pull ghcr.io/markterence/smtp2http:latest
 
 docker run -p 25:25 ghcr.io/markterence/smtp2http:latest \ 
@@ -57,7 +85,8 @@ Or build it as it comes from the repo :
 
 The `timeout` options are of course optional but make it easier to test in local with `telnet localhost 25`
 Here is a telnet example payload : 
-```
+
+```text
 HELO zeus
 # smtp answer
 
@@ -70,11 +99,11 @@ RCPT TO:<youremail@example.com>
 DATA
 your mail content
 .
-
 ```
 
-Docker pre-built image are available and only on ghcr
-=====
+## Docker (pre-built image)
+
+To use the pre-built Docker image of smtp2http, you can pull it from GitHub Container Registry (ghcr.io). Pre-built image are available and only on ghcr.
 
 **docker-compose.yml** Example:
 
@@ -97,8 +126,8 @@ services:
     ]
 ```
 
-Native usage
-=====
+## Native usage
+
 `smtp2http --listen=:25 --webhook=http://localhost:8080/api/smtp-hook`
 `smtp2http --help`
 
@@ -130,8 +159,8 @@ Native usage
 - Added `base64html` option to encode HTML body in base64 for webhook.
 - Added `compressbase64` option to compress the base64 HTML body.
 
-Contribution
-============
+## Contribution
+
 Original repo from [@alash3al](https://github.com/alash3al) 
 
 Thanks to [@aranajuan](https://github.com/aranajuan) and [@alash3al](http://github.com/alash3al)
