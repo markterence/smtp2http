@@ -1,5 +1,7 @@
 # SMTP2HTTP (email-to-web)
 
+Originally started as a fork of [alash3al/smtp2http](https://github.com/alash3al/smtp2http).
+
 smtp2http is a simple smtp server that resends the incoming email to the configured web endpoint (webhook) as a basic http post request.
 
 ## Usage
