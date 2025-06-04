@@ -39,7 +39,7 @@ type EmailMessage struct {
 
 	Addresses struct {
 		From      *EmailAddress   `json:"from"`
-		To        *EmailAddress   `json:"to"`
+		To        []*EmailAddress `json:"to"`
 		ReplyTo   []*EmailAddress `json:"reply_to,omitempty"`
 		Cc        []*EmailAddress `json:"cc,omitempty"`
 		Bcc       []*EmailAddress `json:"bcc,omitempty"`
@@ -53,4 +53,22 @@ type EmailMessage struct {
 
 	Attachments   []*EmailAttachment   `json:"attachments,omitempty"`
 	EmbeddedFiles []*EmailEmbeddedFile `json:"embedded_files,omitempty"`
+}
+
+type AppFlags struct {
+	ServerName     string `json:"server_name"`
+	ListenAddr     string `json:"listen_addr"`
+	Webhook        string `json:"webhook"`
+	MaxMessageSize int64  `json:"max_message_size"`
+	ReadTimeout    int    `json:"read_timeout"`
+	WriteTimeout   int    `json:"write_timeout"`
+	AuthUSER       string `json:"auth_user"`
+	AuthPASS       string `json:"auth_pass"`
+	Domain         string `json:"domain"`
+	Base64HTML     bool   `json:"base64_html"`
+	CompressBase64 bool   `json:"compress_base64"`
+}
+
+type AppContext struct {
+	flags AppFlags `json:"flags"`
 }
