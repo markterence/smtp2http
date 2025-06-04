@@ -104,7 +104,11 @@ func main() {
 				})
 			}
 
-			resp, err := resty.New().R().SetHeader("Content-Type", "application/json").SetBody(jsonData).Post(*flagWebhook)
+			resp, err := resty.New().R().
+				SetHeader("Content-Type", "application/json").
+				SetBasicAuth(appContext.flags.AuthUSER, appContext.flags.AuthPASS).
+				SetBody(jsonData).
+				Post(*flagWebhook)
 			if err != nil {
 				log.Println(err)
 				return errors.New("E1: Cannot accept your message due to internal error, please report that to our engineers")
