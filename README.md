@@ -2,6 +2,34 @@ SMTP2HTTP (email-to-web)
 ========================
 smtp2http is a simple smtp server that resends the incoming email to the configured web endpoint (webhook) as a basic http post request.
 
+## Usage
+
+```
+Usage of ./smtp2http:
+  -base64html
+        encode HTML body in base64 (default: false) for webhook
+  -compressbase64
+      compress the base64 HTML body (default: false) for webhook
+  -domain string
+        domain for recieving mails
+  -listen string
+        the smtp address to listen on (default ":smtp")
+  -msglimit int
+        maximum incoming message size (default 2097152)
+  -name string
+        the server name (default "smtp2http")
+  -pass string
+        pass for smtp client
+  -timeout.read int
+        the read timeout in seconds (default 5)
+  -timeout.write int
+        the write timeout in seconds (default 5)
+  -user string
+        user for smtp client
+  -webhook string
+        the webhook to send the data to (default "http://localhost:8080/my/webhook")
+```
+
 Dev 
 ===
 - `go mod vendor`
@@ -74,9 +102,36 @@ Native usage
 `smtp2http --listen=:25 --webhook=http://localhost:8080/api/smtp-hook`
 `smtp2http --help`
 
+## Differences from original repo
+
+- Allowed multiple recipients. The `addresses.to` json field now contains an array of email addresses object.
+
+```json
+"addresses": {
+    "from": {
+      "address": "smtp2http@example.com"
+    },
+    "to": [
+      {
+        "address": "johndoe@example.com"
+      },
+      {
+        "address": "janedoe@gmail.com"
+      }
+    ],
+    "reply_to": [
+      {
+        "address": "johndoe@example.com"
+      }
+    ]
+  }
+```
+
+- Added `base64html` option to encode HTML body in base64 for webhook.
+- Added `compressbase64` option to compress the base64 HTML body.
+
 Contribution
 ============
-Original repo from @alash3al
-Thanks to @aranajuan and @alash3al
+Original repo from [@alash3al](https://github.com/alash3al) 
 
-
+Thanks to [@aranajuan](https://github.com/aranajuan) and [@alash3al](http://github.com/alash3al)
