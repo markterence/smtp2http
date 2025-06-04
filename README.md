@@ -9,6 +9,15 @@ Dev
 
 Dev with Docker
 ==============
+Using pre-built docker image:
+
+```
+docker pull ghcr.io/markterence/smtp2http:latest
+
+docker run -p 25:25 ghcr.io/markterence/smtp2http:latest \ 
+    --webhook=http://some.hook/api
+```
+
 Locally :
 - `go mod vendor`
 - `docker build -f Dockerfile.dev -t smtp2http-dev .`
@@ -36,11 +45,29 @@ your mail content
 
 ```
 
-Docker (production)
+Docker pre-built image are available and only on ghcr
 =====
-**Docker images arn't available online for now**
-**See "Dev with Docker" above**
-- `docker run -p 25:25 smtp2http --webhook=http://some.hook/api`
+
+**docker-compose.yml** Example:
+
+```yml
+services:
+  smtp2http:
+    image: ghcr.io/markterence/smtp2http:latest
+    container_name: smtp2http
+    restart: unless-stopped
+    ports:
+      - "2525:25"
+    env_file:
+      - .env
+    command: [
+      "-listen=0.0.0.0:25",
+      "-webhook=${WEBHOOK_URL}",
+      "-user", "${SMTP_USER}",
+      "-pass", "${SMTP_PASSWORD}",
+      "-name", "smtp2http"
+    ]
+```
 
 Native usage
 =====
@@ -50,6 +77,6 @@ Native usage
 Contribution
 ============
 Original repo from @alash3al
-Thanks to @aranajuan
+Thanks to @aranajuan and @alash3al
 
 
