@@ -1,8 +1,11 @@
-FROM golang:1.14.4-alpine
+FROM golang:1.14.4-alpine 
 
-WORKDIR /go/src/build
+WORKDIR /app
+
 COPY . .
-ENV CGO_ENABLED=0
-RUN GOOS=linux GOARCH=arm64 go build -mod vendor -a -o smtp2http .
 
-ENTRYPOINT ["/go/src/build/smtp2http"]
+RUN go mod vendor
+ENV CGO_ENABLED=0
+# RUN GOOS=linux go build -mod vendor -a -o smtp2http .
+
+# ENTRYPOINT ["/go/src/build/smtp2http"]

@@ -1,0 +1,22 @@
+services:
+  dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    image: smtp2http-dev
+    container_name: smtp2http-dev
+    ports:
+      - "127.0.0.1:2525:25"
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+    command: sh
+    # command: [
+    #   "-listen=0.0.0.0:25",
+    #   "-webhook=${WEBHOOK_URL}",
+    #   "-user=${SMTP_USER}",
+    #   "-pass=${SMTP_PASS}",
+    # ]
