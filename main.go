@@ -15,6 +15,21 @@ import (
 )
 
 func main() {
+	appContext := &AppContext{
+		flags: AppFlags{
+			ServerName:     *flagServerName,
+			ListenAddr:     *flagListenAddr,
+			Webhook:        *flagWebhook,
+			MaxMessageSize: *flagMaxMessageSize,
+			ReadTimeout:    *flagReadTimeout,
+			WriteTimeout:   *flagWriteTimeout,
+			AuthUSER:       *flagAuthUSER,
+			AuthPASS:       *flagAuthPASS,
+			Domain:         *flagDomain,
+			Base64HTML:     *flagBase64HTML,
+		},
+	}
+
 	cfg := smtpsrv.ServerConfig{
 		ReadTimeout:     time.Duration(*flagReadTimeout) * time.Second,
 		WriteTimeout:    time.Duration(*flagWriteTimeout) * time.Second,
@@ -41,18 +56,21 @@ func main() {
 				EmbeddedFiles: []*EmailEmbeddedFile{},
 			}
 
-			jsonData.Body.HTML = string(msg.HTMLBody)
+			// jsonData.Body.HTML = string(msg.HTMLBody)
+			jsonData.Body.HTML = getHTMLBody(appContext, msg)
 			jsonData.Body.Text = string(msg.TextBody)
 
 			jsonData.Addresses.From = transformStdAddressToEmailAddress([]*mail.Address{c.From()})[0]
 			// jsonData.Addresses.To = transformStdAddressToEmailAddress([]*mail.Address{c.To()})[0]
-			jsonData.Addresses.From = transformStdAddressToEmailAddress(msg.To)
+			jsonData.Addresses.To = transformStdAddressToEmailAddress(msg.To)
 
-			toSplited := strings.Split(jsonData.Addresses.To.Address, "@")
-			if len(*flagDomain) > 0 && (len(toSplited) < 2 || toSplited[1] != *flagDomain) {
-				log.Println("domain not allowed")
-				log.Println(*flagDomain)
-				return errors.New("Unauthorized TO domain")
+			for _, addr := range msg.To {
+				toSplited := strings.Split(addr.Address, "@")
+				if len(*flagDomain) > 0 && (len(toSplited) < 2 || toSplited[1] != *flagDomain) {
+					log.Println("domain not allowed")
+					log.Println(*flagDomain)
+					return errors.New("Unauthorized TO domain")
+				}
 			}
 
 			jsonData.Addresses.Cc = transformStdAddressToEmailAddress(msg.Cc)
