@@ -58,6 +58,10 @@ func main() {
 
 			// jsonData.Body.HTML = string(msg.HTMLBody)
 			jsonData.Body.HTML = getHTMLBody(appContext, msg)
+
+			jsonData.AppFlags.IsBase64 = appContext.flags.Base64HTML
+			jsonData.AppFlags.IsBase64Compressed = appContext.flags.CompressBase64
+
 			jsonData.Body.Text = string(msg.TextBody)
 
 			jsonData.Addresses.From = transformStdAddressToEmailAddress([]*mail.Address{c.From()})[0]
