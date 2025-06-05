@@ -53,6 +53,11 @@ type EmailMessage struct {
 
 	Attachments   []*EmailAttachment   `json:"attachments,omitempty"`
 	EmbeddedFiles []*EmailEmbeddedFile `json:"embedded_files,omitempty"`
+
+	AppFlags struct {
+		IsBase64           bool `json:"is_base64"`
+		IsBase64Compressed bool `json:"is_base64_compressed"`
+	} `json:"app_flags"`
 }
 
 type AppFlags struct {
