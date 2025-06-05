@@ -126,6 +126,13 @@ services:
     ]
 ```
 
+```text
+# .env Example
+WEBHOOK_URL=http://localhost:8080/api/smtp-hook
+SMTP_USER=user_for_this_smtp
+SMTP_PASSWORD=password_for_this_smtp
+```
+
 ## Native usage
 
 `smtp2http --listen=:25 --webhook=http://localhost:8080/api/smtp-hook`
