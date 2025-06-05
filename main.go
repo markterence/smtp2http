@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/mail"
 	"strings"
 	"time"
 
@@ -64,7 +63,8 @@ func main() {
 
 			jsonData.Body.Text = string(msg.TextBody)
 
-			jsonData.Addresses.From = transformStdAddressToEmailAddress([]*mail.Address{c.From()})[0]
+			// jsonData.Addresses.From = transformStdAddressToEmailAddress([]*mail.Address{c.From()})[0]
+			jsonData.Addresses.From = transformStdAddressToEmailAddress(msg.From)[0]
 			// jsonData.Addresses.To = transformStdAddressToEmailAddress([]*mail.Address{c.To()})[0]
 			jsonData.Addresses.To = transformStdAddressToEmailAddress(msg.To)
 
