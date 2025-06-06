@@ -173,7 +173,7 @@ SMTP_PASSWORD=password_for_this_smtp
 ```mermaid
 flowchart TD
     A[App or System sends Email]
-    B[smtp2http Agent - localhost]
+    B[smtp2http - localhost]
 
     subgraph External_Logic
         C[Custom HTTP Gateway]
@@ -197,7 +197,7 @@ flowchart TD
 This diagram illustrates an extensible email-to-webhook integration pipeline using smtp2http and custom gateway logic:
 
 - An **App or System** sends an email using standard SMTP.
-- The **smtp2http Agent** (installed locally or somewhere and listening on localhost or private network for security ) receives the SMTP request and forwards it as an HTTP POST to a custom HTTP Gateway.
+- The **smtp2http** (installed locally or somewhere and listening on localhost or private network for security ) receives the SMTP request and forwards it as an HTTP POST to a custom HTTP Gateway.
 - The smtp2http also sends an HTTP Basic Authorization Header for the receiving systems to authenticate.
 - The **Custom HTTP Gateway** is developer-maintained and serves as both receiver and arbiter. It requires basic authentication (user/password) from smtp2http.
 - Upon receiving a webhook, the gateway checks authorization. If unauthorized, the request is rejected.
