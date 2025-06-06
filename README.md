@@ -168,6 +168,32 @@ SMTP_PASSWORD=password_for_this_smtp
 - Added `base64html` option to encode HTML body in base64 for webhook.
 - Added `compressbase64` option to compress the base64 HTML body.
 
+## Use Case
+
+```mermaid
+flowchart TD
+    A[App or System sends Email]
+    B[smtp2http Agent - localhost]
+
+    subgraph External_Logic
+        C[Custom HTTP Gateway]
+        D{Authorized?}
+        E[Reject Request]
+        F[Process and Filter Webhook]
+        G1[Custom Destination: Webhook]
+        G2[Custom Destination: SMTP]
+    end
+
+    A -->|SMTP Request| B
+    B -->|HTTP POST| C
+    C -->|Basic Auth| D
+    D -- No --> E
+    D -- Yes --> F
+    F -->|Forward| G1
+    F -->|Forward| G2
+
+```
+
 ## Contribution
 
 Original repo from [@alash3al](https://github.com/alash3al) 
