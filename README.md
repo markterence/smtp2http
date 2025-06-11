@@ -51,10 +51,6 @@ services:
     restart: unless-stopped
     ports:
       - "2525:25"
-    environment:
-      WEBHOOK_URL: "https://localhost:3000/api/webhook"
-      SMTP_USER: apikey
-      SMTP_PASSWORD: some-secure-password
     command: [
       "-listen=0.0.0.0:25",
       "-webhook=${WEBHOOK_URL}",
