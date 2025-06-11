@@ -105,7 +105,7 @@ your mail content
 
 ## Docker (pre-built image)
 
-To use the pre-built Docker image of smtp2http, you can pull it from GitHub Container Registry (ghcr.io). Pre-built image are available and only on ghcr.
+To use the pre-built Docker image of smtp2http, you can pull it from GitHub Container Registry (ghcr.io). Pre-built image are only available on ghcr.
 
 **docker-compose.yml** Example:
 
