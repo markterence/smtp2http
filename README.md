@@ -167,6 +167,8 @@ SMTP_PASSWORD=password_for_this_smtp
 
 - Added `base64html` option to encode HTML body in base64 for webhook.
 - Added `compressbase64` option to compress the base64 HTML body.
+- Outgoing POST request have HTTP Basic Auth for webhook authorization.
+- Outgoing POST request can have additional query for webhook authorization.
 
 ## Use Case
 
