@@ -6,6 +6,8 @@ smtp2http is a simple smtp server that resends the incoming email to the configu
 
 ## Usage
 
+CLI:
+
 ```text
 Usage of ./smtp2http:
   -base64html
@@ -30,6 +32,44 @@ Usage of ./smtp2http:
         user for smtp client
   -webhook string
         the webhook to send the data to (default "http://localhost:8080/my/webhook")
+```
+
+Docker:
+
+```
+docker run -p 25:25 ghcr.io/markterence/smtp2http:latest \ 
+    --webhook=http://some.hook/api
+```
+
+Docker Compose
+
+```yml
+services:
+  smtp2http:
+    image: ghcr.io/markterence/smtp2http:latest
+    container_name: smtp2http
+    restart: unless-stopped
+    ports:
+      - "2525:25"
+    environment:
+      WEBHOOK_URL: "https://localhost:3000/api/webhook"
+      SMTP_USER: apikey
+      SMTP_PASSWORD: some-secure-password
+    command: [
+      "-listen=0.0.0.0:25",
+      "-webhook=${WEBHOOK_URL}",
+      "-user", "${SMTP_USER}",
+      "-pass", "${SMTP_PASSWORD}",
+      "-name", "smtp2http"
+    ]
+```
+
+**Tips**
+
+You can generate password using:
+
+```
+openssl rand -hex 32 
 ```
 
 ## Development
